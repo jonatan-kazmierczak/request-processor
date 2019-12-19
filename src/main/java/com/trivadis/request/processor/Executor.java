@@ -17,21 +17,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public class Executor {
-    private final static int REPORT_VALUES_COUNT = 3;
-
     private final int responseSize;
     private final int requestCount;
-    private final int processingThreadCount;
     private final BlockingQueue<Request> requests;
     private final BlockingQueue<Response> responses;
     private final ExecutorService executorService;
     private final ArrayList<Long> responseTimes;
-    private final AtomicInteger requestCounter = new AtomicInteger(  );
+    private final AtomicInteger requestCounter = new AtomicInteger();
 
     public Executor(int responseSize, int requestCount, int processingThreadCount) {
         this.responseSize = responseSize;
         this.requestCount = requestCount;
-        this.processingThreadCount = processingThreadCount;
         requests = new ArrayBlockingQueue<>( 1, false );
         responses = new ArrayBlockingQueue<>( processingThreadCount, false );
         responseTimes = new ArrayList<>( requestCount );
@@ -55,7 +51,7 @@ public class Executor {
     }
 
     protected void processRequest() {
-        while (true) {
+        while ( true ) {
             try {
                 Request request = requests.take();
                 request.time = Instant.now();
@@ -82,7 +78,7 @@ public class Executor {
 
     private BigInteger createHashCodeAndGarbage(String s) {
         BigInteger hashCode = BigInteger.ZERO;
-        for (int v : s.toCharArray()) {
+        for ( int v : s.toCharArray() ) {
             hashCode = hashCode.multiply( BigInteger.valueOf( 31 ) )
                     .add( BigInteger.valueOf( v ) )
                     .mod( BigInteger.valueOf( 1_000_000_000_000_000_000L ) );
@@ -91,7 +87,7 @@ public class Executor {
     }
 
     protected void processResponse() {
-        while (!responses.isEmpty() || requestCounter.get() < requestCount) {
+        while ( !responses.isEmpty() || requestCounter.get() < requestCount ) {
             try {
                 Response response = responses.take();
                 long duration = response.duration.toMillis();
@@ -106,7 +102,7 @@ public class Executor {
     }
 
     private void dumpStatistics() {
-        try ( PrintWriter out = new PrintWriter( Files.newBufferedWriter( Paths.get("response_times.txt") ) ) ) {
+        try ( PrintWriter out = new PrintWriter( Files.newBufferedWriter( Paths.get( "response_times.txt" ) ) ) ) {
             for ( Long time : responseTimes ) {
                 out.println( time );
             }
