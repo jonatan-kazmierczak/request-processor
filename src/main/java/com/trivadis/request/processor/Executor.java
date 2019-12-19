@@ -47,7 +47,6 @@ public class Executor {
         for ( int i = 0; i < requestCount; i++ ) {
             try {
                 requests.put( new Request( i, Instant.now() ) );
-                //System.out.println( Thread.currentThread().getName() + " " + i );
             } catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
@@ -60,24 +59,16 @@ public class Executor {
             try {
                 Request request = requests.take();
                 request.time = Instant.now();
-                //System.out.println( Thread.currentThread().getName() + " " + request.index + " start" );
                 responses.put( createResponseAndGarbage( request ) );
-                int currentRequestCounterVal = requestCounter.getAndIncrement();
-                //System.out.println( Thread.currentThread().getName() + " " + request.index + " end" );
+                requestCounter.getAndIncrement();
             } catch ( InterruptedException e ) {
-                //e.printStackTrace();
-                System.out.println(e);
                 break;
             }
         }
-        //System.out.println( "finished processRequest " + Thread.currentThread().getName() );
+        System.out.println( "finished processRequest " + Thread.currentThread().getName() );
     }
 
     private Response createResponseAndGarbage(Request request) {
-//        StringBuilder sb = new StringBuilder();
-//        IntStream.range( 0, responseSize )
-//                .forEach( i -> sb.append( (char) (32 + (request.index + i) % 95) ) );
-//        String valueStr = sb.toString();
         String valueStr = "";
         for ( int i = 0; i < responseSize; i++ ) {
             valueStr += (char) (32 + (request.index + i) % 95);
@@ -105,9 +96,6 @@ public class Executor {
                 Response response = responses.take();
                 long duration = response.duration.toMillis();
                 responseTimes.add( duration );
-//                System.out.printf( "response[%d] = %s %n", response.index, duration );
-//                System.out.println( response );
-//                System.out.println();
             } catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
@@ -115,10 +103,6 @@ public class Executor {
         executorService.shutdownNow();
         System.out.println( "finished processResponse " + Thread.currentThread().getName() );
         dumpStatistics();
-    }
-
-    private String responseTimeToString(Map.Entry<Long, Integer> e) {
-        return String.format( "%4dms : %dx", e.getKey(), e.getValue() );
     }
 
     private void dumpStatistics() {
