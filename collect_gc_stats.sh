@@ -26,6 +26,8 @@ echo
 
 OUT_FILE=$STATS_DIR/gc.txt
 
+mkdir -p $STATS_DIR
+
 # HotSpot
 
 echo -n vm=HotSpot,gc=Serial, > $OUT_FILE
