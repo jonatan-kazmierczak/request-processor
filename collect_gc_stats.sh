@@ -11,7 +11,7 @@ THREAD_COUNT=3
 JAVA_APP="-jar build/libs/request-processor.jar $RESPONSE_SIZE $RESPONSE_COUNT $THREAD_COUNT"
 RESPONSE_TIMES_FILE=response_times.txt
 # Path to java command from OpenJDK build including Shenandoah GC - i.e. AdoptOpenJDK
-JAVA_CMD=java
+JAVA_CMD=/opt2/jdk-13.0.1+9/bin/java
 # Path to java command from OpenJDK with OpenJ9 VM
 JAVA_J9_CMD=/opt2/jdk-13.0.1+9_openj9/bin/java
 # Path to java command from Zing VM
