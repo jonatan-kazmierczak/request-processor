@@ -13,11 +13,11 @@ Otherwise
 ```
 
 ### Build an executable
-This demonstrates ahead-of-time compilation using [GraalVM Native Image](https://www.graalvm.org/docs/reference-manual/native-image/).
+using [GraalVM Native Image](https://www.graalvm.org/docs/reference-manual/native-image/).
 
 Once GraalVM with `native-image` is installed:
 ```bash
-$GRAALVM_HOME/bin/native-image -jar build/libs/words-freq-calc.jar
+$GRAALVM_HOME/bin/native-image -jar build/libs/request-processor.jar
 ```
 
 ### Adapt and run tests
